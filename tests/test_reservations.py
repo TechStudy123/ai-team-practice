@@ -72,3 +72,9 @@ def test_開始24時間以内の取り消し料は半額():
     reservation = Reservation("B", at(10), at(11), people=2)
     cancelled_at = datetime(2026, 12, 1, 9)
     assert cancel_fee(reservation, cancelled_at) == 500
+
+
+def test_続けての予約はできる():
+    first = Reservation("A", at(10), at(11), people=2)
+    second = Reservation("A", at(11), at(12), people=2)
+    assert len(add(second, [first])) == 2
