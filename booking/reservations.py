@@ -1,6 +1,6 @@
 """予約の登録と料金の計算。"""
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from booking.rooms import Room, find_room
 
@@ -43,6 +43,23 @@ def add(new: Reservation, existing: list[Reservation]) -> list[Reservation]:
     """確かめてから予約を足した新しい一覧を返す。"""
     check(new, existing)
     return [*existing, new]
+
+
+def cancel(reservation: Reservation, existing: list[Reservation]) -> list[Reservation]:
+    """予約を1件取り消した新しい一覧を返す。"""
+    if reservation not in existing:
+        raise ValueError("その予約はありません")
+    updated = [*existing]
+    updated.remove(reservation)
+    return updated
+
+
+def cancel_fee(reservation: Reservation, cancelled_at: datetime) -> int:
+    """取り消し料（円）。開始24時間より前なら無料、24時間前ちょうどを含めそれ以降は半額。"""
+    if cancelled_at < reservation.start - timedelta(hours=24):
+        return 0
+    room = find_room(reservation.room_id)
+    return fee(room, reservation.start, reservation.end) // 2
 
 
 def fee(room: Room, start: datetime, end: datetime) -> int:
