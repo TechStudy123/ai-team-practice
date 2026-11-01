@@ -78,3 +78,9 @@ def test_続けての予約はできる():
     first = Reservation("A", at(10), at(11), people=2)
     second = Reservation("A", at(11), at(12), people=2)
     assert len(add(second, [first])) == 2
+
+
+def test_前の時間の予約も続けてできる():
+    first = Reservation("A", at(11), at(12), people=2)
+    second = Reservation("A", at(10), at(11), people=2)
+    assert len(add(second, [first])) == 2

@@ -20,7 +20,7 @@ def overlaps(a: Reservation, b: Reservation) -> bool:
     """同じ部屋で時間が重なっていれば True。"""
     if a.room_id != b.room_id:
         return False
-    return a.start <= b.end and b.start <= a.end
+    return a.start < b.end and b.start < a.end
 
 
 def check(new: Reservation, existing: list[Reservation]) -> None:
