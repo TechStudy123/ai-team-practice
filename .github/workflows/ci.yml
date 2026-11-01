@@ -1,0 +1,25 @@
+# テストと秘密情報の検査（ハンズオン7 で、下の on: を書き換えて有効にする）
+name: CI
+
+on:
+  workflow_dispatch:   # 今は手で動かすときだけ
+  # pull_request:      # ハンズオン7 で有効にする
+  # push:
+  #   branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.3
+      - run: uv run pytest
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: 秘密情報の検査（gitleaks）
+        run: docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 git /repo --redact

@@ -1,0 +1,13 @@
+[project]
+name = "meeting-room-booking"
+version = "0.1.0"
+description = "会議室の予約（練習用の題材）"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
