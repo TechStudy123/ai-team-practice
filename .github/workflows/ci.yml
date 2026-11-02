@@ -3,7 +3,7 @@ name: CI
 
 on:
   workflow_dispatch:   # 今は手で動かすときだけ
-  # pull_request:      # ハンズオン7 で有効にする
+  pull_request:
   # push:
   #   branches: [main]
 
